@@ -90,9 +90,12 @@
         function onPlayerReady(event) {
             console.log('player ready!')
             event.target.setVolume(60);
+            socket.emit('video length', ~~player.getDuration());
+            // console.log("this is player length", ~~player.getDuration())
             event.target.playVideo();
-            // event.target.unMute();
-            console.log('playing video!')
+
+            // 242.941
+            
         }
 
         // 5. The API calls this function when the player's state changes.
