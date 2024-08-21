@@ -65,7 +65,7 @@
 
         async function getCurrentVideo(){
 
-            const videoData = await fetch('https://d65f-2600-1700-dd90-4c80-5054-ff-fe20-6374.ngrok-free.app/currentvideo');
+            const videoData = await fetch('https://the-cube.fly.dev/currentvideo');
             const video = await videoData.json();
             const startVideo = await video;
 
@@ -74,7 +74,7 @@
 
 
 
-            player = new YT.Player('player', {
+            player = new YT.Player('player', { // Getting error on YT not found
                 height: '390',
                 width: '640',
                 videoId: startVideoId,
@@ -121,7 +121,6 @@
 
         //     })
 
-        getCurrentVideo()
 
        
        
@@ -161,7 +160,7 @@
         var player;
 
        function onYouTubeIframeAPIReady() {
-
+            //PASS YT??
             getCurrentVideo()
 
             
@@ -220,7 +219,7 @@
             if(player.getPlayerState() == 0){
                 console.log('video ended!')
                 // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY?si=qGwu4p9cuCuLEiOv',0)
-                player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY',0)
+                // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY',0)
             }
 
             if(player.getPlayerState() == -1){ // LOADING
