@@ -42,8 +42,10 @@ const musicVideos = [
 
 let timeleft;
 let youtubeVideo;
+let videoLength; 
 
 function fakePlayVideo(video){
+  videoLength = video.videoLength;
   timeleft = video.videoLength;
   youtubeVideo = video.video;
 
@@ -104,12 +106,9 @@ startMusicPlayer();
 
 io.on('connection', (socket) => {
 
-  socket.emit('youtube video', youtubeVideo);
-  console.log('this is video', youtubeVideo)
-  socket.emit('video time', timeleft)
-  console.log('this is time left', timeleft)
-
-
+  socket.emit('current youtube video', youtubeVideo, videoLength - timeleft);
+  console.log('this is video', youtubeVideo , timeleft)
+ 
   // socket.on('chat message', (msg) => {
   //   io.emit('chat message', msg);
   // });

@@ -31,39 +31,53 @@
     </div>
     
     <ul id="messages"></ul>
-    <form id="form" action="">
+    <!-- <form id="form" action="">
       <input id="input" autocomplete="off" /><button>Send</button>
-    </form>
+    </form> -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         const socket = io();
-
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
 
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (input.value) {
-                socket.emit('chat message', input.value);
-                input.value = '';
-            }
-        });
+        // form.addEventListener('submit', (e) => {
+        //     e.preventDefault();
+        //     if (input.value) {
+        //         socket.emit('chat message', input.value);
+        //         input.value = '';
+        //     }
+        // });
 
-        socket.on('chat message', (msg) => {
-            const item = document.createElement('li');
-            item.textContent = msg;
-            messages.appendChild(item);
-            window.scrollTo(0, document.body.scrollHeight);
-        });
+        // socket.on('chat message', (msg) => {
+        //     const item = document.createElement('li');
+        //     item.textContent = msg;
+        //     messages.appendChild(item);
+        //     window.scrollTo(0, document.body.scrollHeight);
+        // });
 
+
+
+
+        let startVideoId = 'eTeg1txDv8w'; //crash test dummies
+        let startVideoTime = 0;
       
-        socket.on("new youtube video", (msg)=>{
-            console.log(msg)
+        socket.on("current youtube video", (videoID, timeleft)=>{
+            console.log('this is video:', videoID, timeleft)
+
+            startVideoId = videoID
+            startVideoTime = timeleft
         })
 
+        // socket.on("connection", (msg)=>{
+        //     console.log('connected!')
+        // })
+
+      
+        
+                
         // 2. This code loads the IFrame Player API code asynchronously.
-      var tag = document.createElement('script');
+        var tag = document.createElement('script');
 
         tag.src = "https://www.youtube.com/iframe_api";
         var firstScriptTag = document.getElementsByTagName('script')[0];
@@ -72,15 +86,17 @@
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         var player;
+
         function onYouTubeIframeAPIReady() {
         player = new YT.Player('player', {
             height: '390',
             width: '640',
-            videoId: 'eTeg1txDv8w',
+            videoId: startVideoId,
             playerVars: {
             'playsinline': 1,
             'autoplay': 1,
             'modestbranding': 1,
+            'start': startVideoTime,
             // 'controls': 0,
             'mute': 1
             },
@@ -106,25 +122,26 @@
         // 5. The API calls this function when the player's state changes.
         //    The function indicates that when playing a video (state=1),
         //    the player should play for six seconds and then stop.
-        var done = false;
         function onPlayerStateChange(event) {
-            // if (event.data == YT.PlayerState.PLAYING && !done) {
-            //     setTimeout(stopVideo, 6000);
-            //     done = true;
-            // }
-
             if(player.getPlayerState() == 0){
                 console.log('video ended!')
                 // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY?si=qGwu4p9cuCuLEiOv',0)
                 player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY',0)
-
             }
-
             event.target.unMute();
         }
+
         function stopVideo() {
         player.stopVideo();
         }
+
+    
+        socket.on("new youtube video", (videoID)=>{
+            player.loadVideoByUrl(`https://www.youtube.com/embed/${videoID}`,0)
+        })
+    
+    
+
 
     </script>
   </body>
