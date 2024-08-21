@@ -57,6 +57,11 @@
             window.scrollTo(0, document.body.scrollHeight);
         });
 
+      
+        socket.on("new youtube video", (msg)=>{
+            console.log(msg)
+        })
+
         // 2. This code loads the IFrame Player API code asynchronously.
       var tag = document.createElement('script');
 
