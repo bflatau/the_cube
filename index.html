@@ -62,14 +62,30 @@
         let startVideoId = 'eTeg1txDv8w'; //crash test dummies
         let startVideoTime = 0;
 
-        fetch('https://d65f-2600-1700-dd90-4c80-5054-ff-fe20-6374.ngrok-free.app/currentvideo')
-        .then(response => response.json())
-        .then(data =>{
-            startVideoId = data.currentVideo
-            startVideoTime = data.currentTime
-            // console.log(data)
-            // return data
-        })
+
+        async function getCurrentVideo(){
+
+            const videoData = await fetch('https://d65f-2600-1700-dd90-4c80-5054-ff-fe20-6374.ngrok-free.app/currentvideo')
+                .then(response => response.json())
+                .then(data =>{
+                    return {videoID: data.currentVideo, videoTime: data.currentTime}
+                    // startVideoId = data.currentVideo
+                    // startVideoTime = data.currentTime
+                    // console.log(data)
+                    // return data
+                })
+
+                // console.log(videoData)
+
+                startVideoId = videoData.videoID
+                startVideoTime = videoData.videoTime
+
+        }
+
+        getCurrentVideo()
+   
+
+    
 
 
 
