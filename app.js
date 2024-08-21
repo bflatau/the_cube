@@ -18,6 +18,10 @@ app.get('/', (req, res) => {
   res.sendFile(join(__dirname, 'index.html'));
 });
 
+app.get('/currentvideo', (req, res) => {
+  res.json({ currentVideo: youtubeVideo, currentTime: (videoLength - timeleft) });
+});
+
 
 ////GET YOUTUBE VIDEO STUFF////
 
