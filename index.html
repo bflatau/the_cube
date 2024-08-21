@@ -141,12 +141,16 @@
         // 4. The API will call this function when the video player is ready.
         function onPlayerReady(event) {
             console.log('player ready!')
-            event.target.setVolume(60);
-            socket.emit('video length', ~~player.getDuration());
+            // event.target.setVolume(60);
+            // socket.emit('video length', ~~player.getDuration());
             // console.log("this is player length", ~~player.getDuration())
-            event.target.playVideo();
 
-            // 242.941
+            //DO this for fast connections?
+            event.target.playVideo();
+            event.target.setVolume(60);
+            event.target.unMute();
+            
+
             
         }
 
@@ -154,12 +158,28 @@
         //    The function indicates that when playing a video (state=1),
         //    the player should play for six seconds and then stop.
         function onPlayerStateChange(event) {
+
+            
+
+            console.log('this is player state', player.getPlayerState())
             if(player.getPlayerState() == 0){
                 console.log('video ended!')
                 // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY?si=qGwu4p9cuCuLEiOv',0)
                 player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY',0)
             }
-            event.target.unMute();
+
+            if(player.getPlayerState() == -1){ // LOADING
+                //for slower connections, unmute to allow autoplay and then play
+                event.target.mute()
+                event.target.playVideo();
+                event.target.setVolume(60);
+                event.target.unMute();
+            }
+
+        
+
+            //handle playerstate 3 (buffering) maybe?
+            
         }
 
         function stopVideo() {
