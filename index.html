@@ -65,24 +65,34 @@
 
         async function getCurrentVideo(){
 
-            const videoData = await fetch('https://d65f-2600-1700-dd90-4c80-5054-ff-fe20-6374.ngrok-free.app/currentvideo')
-                .then(response => response.json())
-                .then(data =>{
-                    return {videoID: data.currentVideo, videoTime: data.currentTime}
-                    // startVideoId = data.currentVideo
-                    // startVideoTime = data.currentTime
-                    // console.log(data)
-                    // return data
-                })
+            const videoData = await fetch('https://d65f-2600-1700-dd90-4c80-5054-ff-fe20-6374.ngrok-free.app/currentvideo');
+            const video = await videoData.json();
 
-                // console.log(videoData)
+            return video;
+            
+            
+            // .then(response => response.json())
+            //     .then(data =>{
+            //         return {videoID: data.currentVideo, videoTime: data.currentTime}
+            //         // startVideoId = data.currentVideo
+            //         // startVideoTime = data.currentTime
+            //         // console.log(data)
+            //         // return data
+            //     })
 
-                startVideoId = videoData.videoID
-                startVideoTime = videoData.videoTime
+            //     // console.log(videoData)
+
+            //     startVideoId = videoData.videoID
+            //     startVideoTime = videoData.videoTime
 
         }
 
-        getCurrentVideo()
+        getCurrentVideo().then(video =>{
+            // console.log(video)
+            startVideoId = video.currentVideo
+            startVideoTime = video.currentTime
+
+        })
    
 
     
@@ -169,7 +179,7 @@
             }
 
             if(player.getPlayerState() == -1){ // LOADING
-                //for slower connections, unmute to allow autoplay and then play
+                //for slower connections, mute to allow autoplay and then play
                 event.target.mute()
                 event.target.playVideo();
                 event.target.setVolume(60);
