@@ -108,20 +108,20 @@ startMusicPlayer();
 //   });
 // });
 
-io.on('connection', (socket) => {
+// io.on('connection', (socket) => {
 
-  socket.emit('current youtube video', youtubeVideo, videoLength - timeleft);
-  console.log('this is video', youtubeVideo , timeleft)
+//   socket.emit('current youtube video', youtubeVideo, videoLength - timeleft);
+//   console.log('this is video', youtubeVideo , timeleft)
  
-  // socket.on('chat message', (msg) => {
-  //   io.emit('chat message', msg);
-  // });
+//   // socket.on('chat message', (msg) => {
+//   //   io.emit('chat message', msg);
+//   // });
 
-  // socket.on('video length', (msg) => {
-  //   console.log('this is video length', msg)
-  // });
+//   // socket.on('video length', (msg) => {
+//   //   console.log('this is video length', msg)
+//   // });
 
-});
+// });
 
 
 const PORT = 3000;

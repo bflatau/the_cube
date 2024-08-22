@@ -40,6 +40,12 @@
         const form = document.getElementById('form');
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
+        const invisibleScreen = document.getElementById("invisible-screen");
+
+        invisibleScreen.addEventListener('click', ()=>{
+            console.log('unmuting video!!')
+            unMuteVideo()
+        })
 
         // form.addEventListener('submit', (e) => {
         //     e.preventDefault();
@@ -56,33 +62,25 @@
         //     window.scrollTo(0, document.body.scrollHeight);
         // });
 
-
-
-
-        let startVideoId = 'eTeg1txDv8w'; //crash test dummies
-        let startVideoTime = 0;
-
+        const localDev = false;
+        let api_url;
+        localDev ? api_url = 'http://acidburn.local:3000/currentvideo' : api_url = 'https://the-cube.fly.dev/currentvideo'
 
         async function getCurrentVideo(){
 
-            const videoData = await fetch('https://the-cube.fly.dev/currentvideo');
+            const videoData = await fetch(api_url);
             const video = await videoData.json();
             const startVideo = await video;
 
-            startVideoId = startVideo.currentVideo;
-            startVideoTime= startVideo.currentTime;
-
-
-
-            player = new YT.Player('player', { // Getting error on YT not found
+            player = new YT.Player('player', {
                 height: '390',
                 width: '640',
-                videoId: startVideoId,
+                videoId: startVideo.currentVideo,
                 playerVars: {
                 'playsinline': 1,
                 'autoplay': 1,
                 'modestbranding': 1,
-                'start': startVideoTime,
+                'start': startVideo.currentTime,
                 // 'controls': 0,
                 'mute': 1
                 },
@@ -93,60 +91,8 @@
             });
 
 
-
-
-            // return video;
-            
-            
-            // .then(response => response.json())
-            //     .then(data =>{
-            //         return {videoID: data.currentVideo, videoTime: data.currentTime}
-            //         // startVideoId = data.currentVideo
-            //         // startVideoTime = data.currentTime
-            //         // console.log(data)
-            //         // return data
-            //     })
-
-            //     // console.log(videoData)
-
-            //     startVideoId = videoData.videoID
-            //     startVideoTime = videoData.videoTime
-
         }
-
-        // getCurrentVideo().then(video =>{
-        //     // console.log(video)
-        //     startVideoId = video.currentVideo
-        //     startVideoTime = video.currentTime
-
-        //     })
-
-
-       
-       
-   
-
     
-
-
-
-      
-        // socket.on("current youtube video", (videoID, timeleft)=>{
-        //     console.log('this is video:', videoID, timeleft)
-
-        //     startVideoId = videoID
-        //     startVideoTime = timeleft
-        // })
-
-
-
-
-        // socket.on("connection", (msg)=>{
-        //     console.log('connected!')
-        // })
-
-      
-
         // 2. This code loads the IFrame Player API code asynchronously.
         var tag = document.createElement('script');
 
@@ -154,99 +100,38 @@
         var firstScriptTag = document.getElementsByTagName('script')[0];
         firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-
         // 3. This function creates an <iframe> (and YouTube player)
         //    after the API code downloads.
         var player;
 
        function onYouTubeIframeAPIReady() {
-            //PASS YT??
             getCurrentVideo()
-
-            
-
-            // player = new YT.Player('player', {
-            //     height: '390',
-            //     width: '640',
-            //     videoId: startVideoId,
-            //     playerVars: {
-            //     'playsinline': 1,
-            //     'autoplay': 1,
-            //     'modestbranding': 1,
-            //     'start': startVideoTime,
-            //     // 'controls': 0,
-            //     'mute': 1
-            //     },
-            //     events: {
-            //     'onReady': onPlayerReady,
-            //     'onStateChange': onPlayerStateChange
-            //     }
-            // });
         }
 
-
-
-        
-
-    
-                    
-       
 
         // 4. The API will call this function when the video player is ready.
         function onPlayerReady(event) {
             console.log('player ready!')
-            // event.target.setVolume(60);
-            // socket.emit('video length', ~~player.getDuration());
-            // console.log("this is player length", ~~player.getDuration())
-
-            //DO this for fast connections?
             event.target.playVideo();
             event.target.setVolume(60);
-            event.target.unMute();
-            
-
-            
+            // event.target.unMute();
+      
         }
 
         // 5. The API calls this function when the player's state changes.
         //    The function indicates that when playing a video (state=1),
         //    the player should play for six seconds and then stop.
         function onPlayerStateChange(event) {
-
-            
-
-            console.log('this is player state', player.getPlayerState())
-            if(player.getPlayerState() == 0){
-                console.log('video ended!')
-                // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY?si=qGwu4p9cuCuLEiOv',0)
-                // player.loadVideoByUrl('https://www.youtube.com/embed/h1Z89zW-8sY',0)
-            }
-
-            if(player.getPlayerState() == -1){ // LOADING
-                //for slower connections, mute to allow autoplay and then play
-                event.target.mute()
-                event.target.playVideo();
-                event.target.setVolume(60);
-                event.target.unMute();
-            }
-
-        
-
-            //handle playerstate 3 (buffering) maybe?
-            
+            console.log('this is player state', player.getPlayerState())  
         }
 
-        function stopVideo() {
-        player.stopVideo();
+        function unMuteVideo(){
+            player.unMute();   
         }
 
-    
         socket.on("new youtube video", (videoID)=>{
             player.loadVideoByUrl(`https://www.youtube.com/embed/${videoID}`,0)
         })
-    
-    
-
 
     </script>
   </body>
