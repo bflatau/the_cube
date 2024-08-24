@@ -6,10 +6,13 @@
     <style>
         body {background-image: url("Theboxtvlogo.jpg");background-size: 300px 300px;background-position: -20% 0%; margin: 0; padding-bottom: 3rem; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         .player-container {  display: flex; 
+            margin-top: 10px;
             margin-top:15%;
             justify-content: center;
             align-items: center;}
-        #player{border: 4mm ridge rgb(212, 220, 50);}
+        #player{
+            border: 4mm ridge rgb(212, 220, 50); 
+        }
         #invisible-screen{top: 0; left: 0; position: fixed; width: 100%; height: 100%; background-color: rgba(255, 255, 255, 0)}
 
 
@@ -22,18 +25,18 @@
         #messages > li { padding: 0.5rem 1rem; }
         #messages > li:nth-child(odd) { background: #efefef; }
 
-        @media only screen and (max-width: 350px) {
+        @media only screen and (max-width: 650px) {
             body{
                 background-image: none;
                 background-color: black;
             }
             .player-container{
-                margin-top: 60px;
+                margin-top: 40px;
             }
             #player{
                 border: none;
-                width: 320px;
-                height: 240px;
+                width: 620px;
+                /* height: 240px; */
             }
         }
     </style>
@@ -85,7 +88,7 @@
         //     window.scrollTo(0, document.body.scrollHeight);
         // });
 
-        const localDev = true;
+        const localDev = false;
         let api_url;
         localDev ? api_url = 'http://acidburn.local:3000/currentvideo' : api_url = 'https://the-cube.fly.dev/currentvideo'
 

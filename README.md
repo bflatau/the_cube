@@ -62,6 +62,9 @@ https://forums.raspberrypi.com/viewtopic.php?f=66&t=133691
 
 https://fleetstack.io/blog/raspberry-pi-kiosk-tutorial
 
+
+https://www.adafruit.com/product/2423
+
 sudo apt install --no-install-recommends chromium-browser
 
 sudo apt install unclutter // hides mouse cursor
