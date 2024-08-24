@@ -37,3 +37,50 @@ https://developers.google.com/youtube/v3/docs/videos#properties
 <meta itemprop="identifier" content="eTeg1txDv8w">
 
 <meta itemprop="genre" content="Music">
+
+
+## RASPI
+
+https://www.adafruit.com/product/2423
+
+The last known for-sure tested-and-working version is Dec 11, 2023 (https://downloads.raspberrypi.org/raspios_lite_arm64/images/raspios_lite_arm64-2023-12-11/) from https://downloads.raspberrypi.org/raspios_lite_arm64/images/
+
+
+
+https://downloads.raspberrypi.org/raspios_full_armhf/images/raspios_full_armhf-2023-12-06/
+
+
+RESISTIVE!!!! (order is wrong!)
+
+
+https://learn.adafruit.com/adafruit-pitft-28-inch-resistive-touchscreen-display-raspberry-pi/easy-install-2
+
+
+
+https://forums.raspberrypi.com/viewtopic.php?f=66&t=133691
+
+
+https://fleetstack.io/blog/raspberry-pi-kiosk-tutorial
+
+sudo apt install --no-install-recommends chromium-browser
+
+sudo apt install unclutter // hides mouse cursor
+
+sudo nano /etc/xdg/lxsession/LXDE-pi/autostart
+
+install desktop: sudo apt install xserver-xorg raspberrypi-ui-mods
+
+@xset s noblank
+@xset s off
+@xset -dpms
+@unclutter -idle 0.1 -root
+@chromium-browser --noerrdialogs --disable-infobars --kiosk https://the-cube.fly.dev
+
+## BENDO INSTRUCTIONS
+
+Install lite version of OS
+Install Screen stuff
+Add in desktop
+INstall chrome + no cursor
+autoplay chrome
+

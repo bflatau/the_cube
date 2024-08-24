@@ -21,6 +21,21 @@
         #messages { list-style-type: none; margin: 0; padding: 0; }
         #messages > li { padding: 0.5rem 1rem; }
         #messages > li:nth-child(odd) { background: #efefef; }
+
+        @media only screen and (max-width: 350px) {
+            body{
+                background-image: none;
+                background-color: black;
+            }
+            .player-container{
+                margin-top: 60px;
+            }
+            #player{
+                border: none;
+                width: 320px;
+                height: 240px;
+            }
+        }
     </style>
   </head>
   <body>
@@ -42,9 +57,17 @@
         const messages = document.getElementById('messages');
         const invisibleScreen = document.getElementById("invisible-screen");
 
+        let videoMuted = true;
+
         invisibleScreen.addEventListener('click', ()=>{
-            console.log('unmuting video!!')
-            unMuteVideo()
+            // console.log('unmuting video!!')
+            if(videoMuted){
+                player.unMute()
+                videoMuted = false;
+            }else{
+                player.mute()
+                videoMuted = true;
+            }
         })
 
         // form.addEventListener('submit', (e) => {
@@ -62,7 +85,7 @@
         //     window.scrollTo(0, document.body.scrollHeight);
         // });
 
-        const localDev = false;
+        const localDev = true;
         let api_url;
         localDev ? api_url = 'http://acidburn.local:3000/currentvideo' : api_url = 'https://the-cube.fly.dev/currentvideo'
 
@@ -125,9 +148,9 @@
             console.log('this is player state', player.getPlayerState())  
         }
 
-        function unMuteVideo(){
-            player.unMute();   
-        }
+        // function unMuteVideo(){
+        //     player.unMute();   
+        // }
 
         socket.on("new youtube video", (videoID)=>{
             player.loadVideoByUrl(`https://www.youtube.com/embed/${videoID}`,0)
