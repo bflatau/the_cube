@@ -26,8 +26,10 @@
         #messages > li:nth-child(odd) { background: #efefef; }
 
         #click-button{top: 0; left: 0; position: fixed; color: red; margin-top: 3%; margin-left: 3%; font-size: 20px; font-weight: bold; z-index: 3;}
-
         #click-button:hover{cursor: pointer;}
+
+        #user-count{bottom: 0; right: 0; position: fixed; color: green; margin-bottom: 3%; margin-right: 3%; font-size: 20px; font-weight: bold; z-index: 3;}
+
 
         @media only screen and (max-width: 650px) {
             body{
@@ -49,6 +51,9 @@
 
     <div id="click-button"> CLICK ME</div>
 
+    <div id="user-count">USERS</div>
+
+
     <div id="invisible-screen"></div>
     <div class="player-container">
         <div id="player"></div>
@@ -66,6 +71,8 @@
         const messages = document.getElementById('messages');
         const invisibleScreen = document.getElementById("invisible-screen");
         const clickButton = document.getElementById("click-button");
+        const userCount = document.getElementById("user-count");
+
 
         let videoMuted = true;
 
@@ -100,6 +107,10 @@
         //     messages.appendChild(item);
         //     window.scrollTo(0, document.body.scrollHeight);
         // });
+
+        socket.on('user count', (msg) => {
+            userCount.innerHTML = msg;
+        });
 
         const localDev = true;
         let api_url;

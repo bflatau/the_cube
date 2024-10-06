@@ -112,6 +112,16 @@ function startMusicPlayer(){
 startMusicPlayer();
 
 
+io.on('connection', function (socket) {
+  // console.log(socket.client.conn.server.clientsCount + " users connected");
+  io.emit('user count', socket.client.conn.server.clientsCount);
+
+  socket.on("disconnect", (reason) => {
+    // console.log(socket.client.conn.server.clientsCount + " users connected");
+    io.emit('user count', socket.client.conn.server.clientsCount);
+
+  });
+});
 
 
 
