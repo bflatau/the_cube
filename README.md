@@ -87,3 +87,11 @@ Add in desktop
 INstall chrome + no cursor
 autoplay chrome
 
+
+## audio
+
+set audio in raspi-config
+
+`alsamixer` ---> set audio volume
+
+https://www.raspberrypi-spy.co.uk/2019/06/using-a-usb-audio-device-with-the-raspberry-pi/

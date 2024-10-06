@@ -5,6 +5,29 @@ const { join } = require('node:path');
 const { Server } = require('socket.io');
 const fetch  = require('node-fetch');
 const { parse, end, toSeconds, pattern } = require('iso8601-duration');
+var Airtable = require('airtable');
+var base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY}).base('appDNK2Y3k5JoFysX');
+
+base('Table 1').select({
+  // Selecting the first 3 records in Grid view:
+  maxRecords: 3,
+  view: "Grid view"
+}).eachPage(function page(records, fetchNextPage) {
+  // This function (`page`) will get called for each page of records.
+
+  records.forEach(function (record) {
+    console.log('Retrieved', record.get('Name'));
+  });
+
+  // To fetch the next page of records, call `fetchNextPage`.
+  // If there are more records, `page` will get called again.
+  // If there are no more records, `done` will get called.
+  fetchNextPage();
+
+}, function done(err) {
+  if (err) { console.error(err); return; }
+});
+
 
 
 const app = express();

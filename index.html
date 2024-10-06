@@ -25,6 +25,10 @@
         #messages > li { padding: 0.5rem 1rem; }
         #messages > li:nth-child(odd) { background: #efefef; }
 
+        #click-button{top: 0; left: 0; position: fixed; color: red; margin-top: 3%; margin-left: 3%; font-size: 20px; font-weight: bold; z-index: 3;}
+
+        #click-button:hover{cursor: pointer;}
+
         @media only screen and (max-width: 650px) {
             body{
                 background-image: none;
@@ -43,6 +47,8 @@
   </head>
   <body>
 
+    <div id="click-button"> CLICK ME</div>
+
     <div id="invisible-screen"></div>
     <div class="player-container">
         <div id="player"></div>
@@ -59,6 +65,7 @@
         const input = document.getElementById('input');
         const messages = document.getElementById('messages');
         const invisibleScreen = document.getElementById("invisible-screen");
+        const clickButton = document.getElementById("click-button");
 
         let videoMuted = true;
 
@@ -71,6 +78,12 @@
                 player.mute()
                 videoMuted = true;
             }
+        })
+
+
+        clickButton.addEventListener('click', () => {
+            // console.log('unmuting video!!')
+            window.open('https://airtable.com/appDNK2Y3k5JoFysX/pag5D9tSIHtjY0eTr/form', '_blank').focus();
         })
 
         // form.addEventListener('submit', (e) => {
@@ -88,7 +101,7 @@
         //     window.scrollTo(0, document.body.scrollHeight);
         // });
 
-        const localDev = false;
+        const localDev = true;
         let api_url;
         localDev ? api_url = 'http://acidburn.local:3000/currentvideo' : api_url = 'https://the-cube.fly.dev/currentvideo'
 

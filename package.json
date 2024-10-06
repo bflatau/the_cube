@@ -2,8 +2,8 @@
   "scripts": {
     "start": "node app.js"
   },
-
   "dependencies": {
+    "airtable": "^0.12.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
     "google-auth-library": "^9.13.0",
