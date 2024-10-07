@@ -8,42 +8,7 @@ const { parse, end, toSeconds, pattern } = require('iso8601-duration');
 var Airtable = require('airtable');
 var base = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY}).base('appDNK2Y3k5JoFysX');
 
-base('Table 1').select({
-  // Selecting the first 3 records in Grid view:
-  maxRecords: 3,
-  view: "Grid view"
-}).eachPage(function page(records, fetchNextPage) {
-  // This function (`page`) will get called for each page of records.
 
-  records.forEach(function (record) {
-    console.log('Retrieved', record.get('Name'));
-  });
-
-  // To fetch the next page of records, call `fetchNextPage`.
-  // If there are more records, `page` will get called again.
-  // If there are no more records, `done` will get called.
-  fetchNextPage();
-
-}, function done(err) {
-  if (err) { console.error(err); return; }
-});
-
-
-
-const app = express();
-const server = createServer(app);
-const io = new Server(server);
-
-
-app.use(express.static('./static'));
-
-app.get('/', (req, res) => {
-  res.sendFile(join(__dirname, 'index.html'));
-});
-
-app.get('/currentvideo', (req, res) => {
-  res.json({ currentVideo: youtubeVideo, currentTime: (videoLength - timeleft) });
-});
 
 
 ////GET YOUTUBE VIDEO STUFF////
@@ -71,6 +36,56 @@ let timeleft;
 let youtubeVideo;
 let videoLength; 
 
+
+const app = express();
+const server = createServer(app);
+const io = new Server(server);
+
+
+app.use(express.static('./static'));
+
+app.get('/', (req, res) => {
+  res.sendFile(join(__dirname, 'index.html'));
+});
+
+app.get('/currentvideo', (req, res) => {
+  res.json({ currentVideo: youtubeVideo, currentTime: (videoLength - timeleft) });
+});
+
+
+
+
+async function getQueueVideo() {
+  //AIRTABLE GET QUEUE VIDEO
+  base('Table 1').select({
+    // Selecting the first 3 records in Grid view:
+    maxRecords: 1,
+    view: "Grid view"
+  }).eachPage(function page(records, fetchNextPage) {
+    // This function (`page`) will get called for each page of records.
+
+    records.forEach(function (record) {
+      console.log('Retrieved', record.get('Link'));
+    });
+
+    // To fetch the next page of records, call `fetchNextPage`.
+    // If there are more records, `page` will get called again.
+    // If there are no more records, `done` will get called.
+    fetchNextPage();
+
+  }, function done(err) {
+    if (err) { console.error(err); return; }
+
+    return 12
+  });
+
+}
+
+
+
+
+
+
 function fakePlayVideo(video){
   videoLength = video.videoLength;
   timeleft = video.videoLength;
@@ -93,6 +108,20 @@ function fakePlayVideo(video){
 
 
 async function getNewSong(){
+  //PUT AIRTABLE FUNCTION HERE..
+
+  var getOneSong = await base('Table 1').select({ maxRecords: 1, view: "Grid view" }).all()
+
+
+  if(getOneSong[0]){ //if there is a song in the queue, do X
+    console.log("this is one airtable song", getOneSong[0].fields, getOneSong[0].id)
+
+  }else{ //if there is no songe in the queue, find a random song
+    console.log('no records!')
+  }
+
+
+
   console.log('getting new song');
   const randomSong = musicVideos[Math.floor(Math.random() * musicVideos.length)];
   const response = await fetch(`https://youtube.googleapis.com/youtube/v3/videos?part=snippet%2CcontentDetails&id=${randomSong}&key=${process.env.YOUTUBE_API_KEY}` );
